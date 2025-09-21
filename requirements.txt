@@ -41,3 +41,4 @@ django-extensions==3.2.3
 django-csp==5.0.0
 django-axes==6.0.2
 django-ratelimit==4.0.0
+django-celery-beat==2.8.1
