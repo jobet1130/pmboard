@@ -76,7 +76,7 @@ RUN mkdir -p /app/docker/celery/worker
 
 # Create a simple start script for Celery worker
 RUN echo '#!/bin/sh\n\
-celery -A config worker -l INFO\n' > /start-celeryworker.sh && \
+celery -A pmboard worker -l INFO\n' > /start-celeryworker.sh && \
     chmod +x /start-celeryworker.sh
 
 # Command to run celery worker
@@ -93,7 +93,7 @@ RUN mkdir -p /app/docker/celery/beat
 
 # Create a simple start script for Celery beat
 RUN echo '#!/bin/sh\n\
-celery -A config beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler\n' > /start-celerybeat.sh && \
+celery -A pmboard beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler\n' > /start-celerybeat.sh && \
     chmod +x /start-celerybeat.sh
 
 # Command to run celery beat

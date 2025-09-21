@@ -5,6 +5,7 @@ volumes:
   sqlite_data:
   static_volume:
   media_volume:
+  redis_data:
 
 services:
   # Nginx Web Server
@@ -18,6 +19,7 @@ services:
       - media_volume:/app/media
     depends_on:
       - web
+      - redis
     restart: unless-stopped
     networks:
       - app_network
@@ -63,9 +65,21 @@ services:
       - DJANGO_SETTINGS_MODULE=pmboard.settings
     depends_on:
       - web
+      - redis
     restart: unless-stopped
     networks:
       - app_network
+
+  # Redis for Celery
+  redis:
+    image: redis:7-alpine
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+    networks:
+      - app_network
+    restart: unless-stopped
 
   # Celery Beat
   celery_beat:
@@ -82,6 +96,7 @@ services:
       - DJANGO_SETTINGS_MODULE=pmboard.settings
     depends_on:
       - web
+      - redis
       - celery_worker
     restart: unless-stopped
     networks:
